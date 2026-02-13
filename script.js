@@ -180,8 +180,9 @@ async function fetchGitHubProjects() {
         const repos = await response.json();
 
         // Filter: non-fork, has code, sorted by most recently pushed
+        const excludedRepos = ['Summerizer-and-Question-Genarator'];
         const featured = repos
-            .filter(r => !r.fork && r.size > 0)
+            .filter(r => !r.fork && r.size > 0 && !excludedRepos.includes(r.name))
             .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
             .slice(0, 12);
 
@@ -285,7 +286,7 @@ function getProjectDescription(name) {
         'v2x_hub': 'Vehicle-to-Everything (V2X) communication hub for coordinating connected vehicles.',
         'Xmas-tour': 'Interactive Christmas-themed web experience with animations and holiday visuals.',
         'Face-Recognition-Attendance-System': 'Automated attendance system using face recognition technology.',
-        'Summerizer-and-Question-Genarator': 'AI-powered text summarization and question generation tool using NLP.',
+
         'Music-Recommendation-System': 'Machine learning-based music recommendation engine.',
         'V2X-Delay-Simulator': 'Simulation tool for testing V2X communication delay scenarios.',
         'EduPlatform-backend': 'Backend API for an educational platform built with Node.js.',
