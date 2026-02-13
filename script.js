@@ -1,6 +1,6 @@
 // ===== DOM Ready =====
 document.addEventListener('DOMContentLoaded', () => {
-    initNavigation();
+    initNavDock();
     initTypewriter();
     initScrollReveal();
     initCounters();
@@ -8,22 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initProjectFilters();
 });
 
-// ===== Navigation =====
-function initNavigation() {
-    const navbar = document.getElementById('navbar');
-    const navToggle = document.getElementById('nav-toggle');
-    const navLinks = document.getElementById('nav-links');
-    const links = document.querySelectorAll('.nav-link');
+// ===== Navigation Dock =====
+function initNavDock() {
+    const links = document.querySelectorAll('.nav-dock-link');
 
-    // Scroll effect
+    // Active link tracking on scroll
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 80) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-
-        // Active link tracking
         const sections = document.querySelectorAll('section[id]');
         let current = '';
         sections.forEach(section => {
@@ -38,20 +28,6 @@ function initNavigation() {
             if (link.getAttribute('href') === `#${current}`) {
                 link.classList.add('active');
             }
-        });
-    });
-
-    // Mobile toggle
-    navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        navLinks.classList.toggle('active');
-    });
-
-    // Close mobile nav on link click
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            navToggle.classList.remove('active');
-            navLinks.classList.remove('active');
         });
     });
 }
