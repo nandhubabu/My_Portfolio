@@ -54,9 +54,55 @@ a {
     color: inherit;
 }
 
-img {
-    max-width: 100%;
-    display: block;
+/* ===== Focus & Scroll Progress Bar ===== */
+:focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 4px;
+}
+
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--gradient-primary);
+    z-index: 9999;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+/* ===== Toast Notification ===== */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(15, 22, 41, 0.95);
+    color: var(--accent-cyan);
+    padding: 12px 24px;
+    border-radius: 50px;
+    border: 1px solid var(--accent-cyan);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 212, 255, 0.25);
+    backdrop-filter: blur(12px);
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 10000;
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast svg {
+    color: var(--accent-green);
 }
 
 /* ===== Utility ===== */
@@ -805,6 +851,17 @@ img {
     font-size: 0.9rem;
 }
 
+.projects-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+    font-size: 1rem;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    background: rgba(15, 22, 41, 0.3);
+}
+
 
 /* ===== Contact Section ===== */
 .contact-grid {
@@ -1041,7 +1098,7 @@ img {
 
     /* Footer */
     .footer {
-        padding: 32px 0;
+        padding: 32px 0 calc(32px + 70px + env(safe-area-inset-bottom));
     }
 
     .footer-content {
@@ -1190,6 +1247,6 @@ img {
 
     /* Footer */
     .footer {
-        padding: 24px 0;
+        padding: 24px 0 calc(24px + 70px + env(safe-area-inset-bottom));
     }
 }
