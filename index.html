@@ -27,6 +27,9 @@
 </head>
 
 <body>
+    <!-- Cursor Glow (desktop only) -->
+    <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress-bar" id="scroll-progress" aria-hidden="true"></div>
 
@@ -84,6 +87,7 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-bg-effects">
+            <canvas id="particle-canvas" aria-hidden="true"></canvas>
             <div class="hero-orb hero-orb-1"></div>
             <div class="hero-orb hero-orb-2"></div>
             <div class="hero-orb hero-orb-3"></div>
@@ -155,11 +159,12 @@
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- About Section -->
     <section class="section" id="about">
         <div class="container">
             <div class="section-header">
-
                 <h2 class="section-title">About Me</h2>
                 <div class="section-line"></div>
             </div>
@@ -196,11 +201,12 @@
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- Skills Section -->
     <section class="section section-alt" id="skills">
         <div class="container">
             <div class="section-header">
-
                 <h2 class="section-title">Technical Skills</h2>
                 <div class="section-line"></div>
             </div>
@@ -368,11 +374,12 @@
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- Projects Section -->
     <section class="section" id="projects">
         <div class="container">
             <div class="section-header">
-
                 <h2 class="section-title">Featured Projects</h2>
                 <div class="section-line"></div>
                 <p class="section-subtitle">Dynamically loaded from my GitHub repositories</p>
@@ -394,11 +401,12 @@
     </section>
 
 
+    <div class="section-divider"></div>
+
     <!-- Contact Section -->
     <section class="section" id="contact">
         <div class="container">
             <div class="section-header">
-
                 <h2 class="section-title">Get In Touch</h2>
                 <div class="section-line"></div>
                 <p class="section-subtitle">Interested in collaborating or have a project in mind? Let's connect!</p>

@@ -7,6 +7,12 @@
     box-sizing: border-box;
 }
 
+@property --gradient-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
 :root {
     --bg-primary: #0a0e1a;
     --bg-secondary: #0f1629;
@@ -52,6 +58,35 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* ===== Cursor Glow ===== */
+.cursor-glow {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.cursor-glow.active {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .cursor-glow {
+        display: none;
+    }
 }
 
 /* ===== Focus & Scroll Progress Bar ===== */
@@ -105,11 +140,47 @@ a {
     color: var(--accent-green);
 }
 
+/* ===== Section Divider ===== */
+.section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent-cyan) 20%, var(--accent-purple) 50%, var(--accent-pink) 80%, transparent 100%);
+    opacity: 0.2;
+    position: relative;
+}
+
+.section-divider::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent-cyan) 20%, var(--accent-purple) 50%, var(--accent-pink) 80%, transparent 100%);
+    opacity: 0;
+    filter: blur(4px);
+    animation: divider-pulse 4s ease-in-out infinite;
+}
+
+@keyframes divider-pulse {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.6; }
+}
+
 /* ===== Utility ===== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
+}
+
+/* ===== Particle Canvas ===== */
+#particle-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 }
 
 /* ===== Navigation Dock ===== */
@@ -139,7 +210,7 @@ a {
     height: 48px;
     border-radius: 50%;
     color: var(--text-muted);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease;
     position: relative;
 }
 
@@ -174,6 +245,7 @@ a {
 .nav-dock-link:hover {
     color: var(--text-primary);
     background: rgba(0, 212, 255, 0.08);
+    transform: scale(1.15);
 }
 
 .nav-dock-link.active {
@@ -204,6 +276,10 @@ a {
     .nav-dock-link {
         width: 44px;
         height: 44px;
+    }
+
+    .nav-dock-link:hover {
+        transform: scale(1.1);
     }
 
     .nav-dock-label {
@@ -241,6 +317,7 @@ a {
     filter: blur(100px);
     opacity: 0.4;
     animation: float 8s ease-in-out infinite;
+    will-change: transform;
 }
 
 .hero-orb-1 {
@@ -283,19 +360,9 @@ a {
 }
 
 @keyframes float {
-
-    0%,
-    100% {
-        transform: translate(0, 0) scale(1);
-    }
-
-    33% {
-        transform: translate(30px, -30px) scale(1.05);
-    }
-
-    66% {
-        transform: translate(-20px, 20px) scale(0.95);
-    }
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
 }
 
 .hero-content {
@@ -328,17 +395,8 @@ a {
 }
 
 @keyframes pulse-dot {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 0.5;
-        transform: scale(0.8);
-    }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
 }
 
 .hero-title {
@@ -354,6 +412,7 @@ a {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    position: relative;
 }
 
 .hero-tagline {
@@ -379,9 +438,7 @@ a {
 }
 
 @keyframes blink {
-    50% {
-        opacity: 0;
-    }
+    50% { opacity: 0; }
 }
 
 .hero-description {
@@ -440,12 +497,32 @@ a {
     transition: var(--transition);
     cursor: pointer;
     border: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primary {
     background: var(--gradient-primary);
     color: #fff;
     box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+}
+
+/* Shimmer sweep on primary button */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: btn-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes btn-shimmer {
+    0% { left: -100%; }
+    50% { left: 150%; }
+    100% { left: 150%; }
 }
 
 .btn-primary:hover {
@@ -463,6 +540,7 @@ a {
     background: rgba(0, 212, 255, 0.1);
     border-color: var(--accent-cyan);
     transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
 }
 
 .scroll-indicator {
@@ -486,17 +564,8 @@ a {
 }
 
 @keyframes scroll-pulse {
-
-    0%,
-    100% {
-        opacity: 0.3;
-        height: 40px;
-    }
-
-    50% {
-        opacity: 1;
-        height: 60px;
-    }
+    0%, 100% { opacity: 0.3; height: 40px; }
+    50% { opacity: 1; height: 60px; }
 }
 
 .scroll-indicator span {
@@ -507,15 +576,8 @@ a {
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== Section Base ===== */
@@ -539,6 +601,8 @@ a {
     color: var(--accent-cyan);
     display: block;
     margin-bottom: 12px;
+    letter-spacing: 1px;
+    opacity: 0.8;
 }
 
 .section-title {
@@ -553,6 +617,7 @@ a {
     background: var(--gradient-primary);
     border-radius: 4px;
     margin: 0 auto 16px;
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
 }
 
 .section-subtitle {
@@ -560,20 +625,44 @@ a {
     color: var(--text-secondary);
 }
 
-/* ===== Glass Card ===== */
+/* ===== Glass Card with Animated Border ===== */
 .glass-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     backdrop-filter: blur(10px);
     transition: var(--transition);
+    position: relative;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(from var(--gradient-angle), transparent 40%, var(--accent-cyan) 50%, var(--accent-purple) 55%, transparent 65%);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: rotate-gradient 4s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes rotate-gradient {
+    to { --gradient-angle: 360deg; }
 }
 
 .glass-card:hover {
     background: var(--bg-card-hover);
-    border-color: var(--border-glow);
-    box-shadow: var(--shadow-glow);
     transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+}
+
+.glass-card:hover::before {
+    opacity: 1;
 }
 
 /* ===== About Section ===== */
@@ -688,19 +777,26 @@ a {
     border-radius: 6px;
     transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
 }
 
 .skill-fill::after {
     content: '';
     position: absolute;
     right: 0;
-    top: 0;
-    width: 6px;
-    height: 100%;
-    background: #fff;
+    top: -2px;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-cyan);
     border-radius: 50%;
-    opacity: 0.8;
-    box-shadow: 0 0 10px var(--accent-cyan);
+    opacity: 0.9;
+    box-shadow: 0 0 12px var(--accent-cyan), 0 0 24px rgba(0, 212, 255, 0.4);
+    animation: skill-pulse 2s ease-in-out infinite;
+}
+
+@keyframes skill-pulse {
+    0%, 100% { box-shadow: 0 0 8px var(--accent-cyan); }
+    50% { box-shadow: 0 0 16px var(--accent-cyan), 0 0 30px rgba(0, 212, 255, 0.3); }
 }
 
 /* ===== Projects Section ===== */
@@ -730,6 +826,7 @@ a {
     color: var(--text-primary);
     background: rgba(0, 212, 255, 0.1);
     border-color: var(--accent-cyan);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
 }
 
 .projects-grid {
@@ -841,9 +938,7 @@ a {
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 .projects-loading p {
@@ -862,20 +957,20 @@ a {
     background: rgba(15, 22, 41, 0.3);
 }
 
-
 /* ===== Contact Section ===== */
 .contact-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 24px;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
 .contact-card {
-    padding: 40px 32px;
+    padding: 40px 24px;
     text-align: center;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .contact-card svg {
@@ -890,8 +985,10 @@ a {
 }
 
 .contact-card p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
+    word-break: break-all;
+    overflow-wrap: break-word;
 }
 
 /* ===== Footer ===== */
@@ -912,6 +1009,10 @@ a {
     font-family: var(--font-mono);
     font-size: 1.2rem;
     font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .footer-text {
@@ -936,13 +1037,15 @@ a {
 /* ===== Scroll Reveal ===== */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(30px) scale(0.98);
+    filter: blur(4px);
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .reveal.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0);
 }
 
 /* ===== Responsive ===== */
@@ -952,8 +1055,6 @@ a {
     .container {
         padding: 0 20px;
     }
-
-
 
     .section {
         padding: 80px 0;
@@ -1054,6 +1155,10 @@ a {
 
     .section-subtitle {
         font-size: 0.9rem;
+    }
+
+    .section-tag {
+        font-size: 0.8rem;
     }
 
     /* Grids to single column */

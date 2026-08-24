@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initSkillBars();
     initProjectFilters();
     initEmailCopy();
+    initParticleCanvas();
+    initCursorGlow();
+    initHeroParallax();
+    initCardTilt();
     fetchGitHubProjects();
     fetchGitHubProfile();
 });
@@ -551,3 +555,216 @@ function getLanguageColor(language) {
     };
     return colors[language] || '#8892b0';
 }
+
+// ===== Particle Canvas (Neural Network Style) =====
+function initParticleCanvas() {
+    const canvas = document.getElementById('particle-canvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationId;
+    const PARTICLE_COUNT = 60;
+    const CONNECTION_DISTANCE = 150;
+    let mouse = { x: -1000, y: -1000 };
+
+    function resize() {
+        const hero = canvas.parentElement?.parentElement;
+        if (!hero) return;
+        canvas.width = hero.offsetWidth;
+        canvas.height = hero.offsetHeight;
+    }
+
+    function createParticles() {
+        particles = [];
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                radius: Math.random() * 2 + 1,
+                opacity: Math.random() * 0.5 + 0.2,
+            });
+        }
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw connections
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < CONNECTION_DISTANCE) {
+                    const opacity = (1 - dist / CONNECTION_DISTANCE) * 0.15;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
+            }
+
+            // Mouse connection
+            const dxm = particles[i].x - mouse.x;
+            const dym = particles[i].y - mouse.y;
+            const distm = Math.sqrt(dxm * dxm + dym * dym);
+            if (distm < 200) {
+                const opacity = (1 - distm / 200) * 0.3;
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.strokeStyle = `rgba(124, 58, 237, ${opacity})`;
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+            }
+        }
+
+        // Draw particles
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 212, 255, ${p.opacity})`;
+            ctx.fill();
+
+            // Update position
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Wrap around edges
+            if (p.x < 0) p.x = canvas.width;
+            if (p.x > canvas.width) p.x = 0;
+            if (p.y < 0) p.y = canvas.height;
+            if (p.y > canvas.height) p.y = 0;
+        });
+
+        animationId = requestAnimationFrame(drawParticles);
+    }
+
+    // Only animate when hero is visible
+    const heroSection = document.getElementById('home');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (!animationId) drawParticles();
+            } else {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+            }
+        });
+    }, { threshold: 0.1 });
+
+    if (heroSection) observer.observe(heroSection);
+
+    window.addEventListener('resize', () => {
+        resize();
+        createParticles();
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
+    });
+
+    resize();
+    createParticles();
+    drawParticles();
+}
+
+// ===== Cursor Glow Effect =====
+function initCursorGlow() {
+    const glow = document.getElementById('cursor-glow');
+    if (!glow || window.matchMedia('(max-width: 768px)').matches) return;
+
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        if (!glow.classList.contains('active')) {
+            glow.classList.add('active');
+        }
+    });
+
+    document.addEventListener('mouseleave', () => {
+        glow.classList.remove('active');
+    });
+
+    function animate() {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        glow.style.left = currentX + 'px';
+        glow.style.top = currentY + 'px';
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+
+// ===== Hero Parallax on Orbs =====
+function initHeroParallax() {
+    const orbs = document.querySelectorAll('.hero-orb');
+    if (!orbs.length || window.matchMedia('(max-width: 768px)').matches) return;
+
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+
+    hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+        const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+
+        orbs.forEach((orb, i) => {
+            const speed = (i + 1) * 15;
+            orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+        });
+    });
+
+    hero.addEventListener('mouseleave', () => {
+        orbs.forEach(orb => {
+            orb.style.transform = 'translate(0, 0)';
+            orb.style.transition = 'transform 0.6s ease';
+            setTimeout(() => { orb.style.transition = ''; }, 600);
+        });
+    });
+}
+
+// ===== Card Tilt Effect =====
+function initCardTilt() {
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+
+    const cards = document.querySelectorAll('.glass-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+
+            card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+}
+
