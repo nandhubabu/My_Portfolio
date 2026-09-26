@@ -75,10 +75,10 @@ function initTypewriter() {
 
     const phrases = [
         'Software Developer',
-        'Machine Learning Engineer',
-        'Computer Vision Enthusiast',
+        'AI & ML Engineer',
+        'Computer Vision Specialist',
         'Full Stack Developer',
-        'Deep Learning Explorer',
+        'IoT & Embedded Systems Dev',
     ];
     let phraseIndex = 0;
     let charIndex = 0;
@@ -219,7 +219,7 @@ function initProjectFilters() {
             if (filter === 'all') {
                 isVisible = true;
             } else if (filter === 'other') {
-                isVisible = (lang !== 'Python' && lang !== 'JavaScript');
+                isVisible = (lang !== 'Python' && lang !== 'JavaScript' && lang !== 'TypeScript');
             } else {
                 isVisible = (lang === filter);
             }
@@ -357,31 +357,88 @@ function observeProjectCards(grid) {
 function renderFallbackProjects(grid) {
     const fallbackRepos = [
         {
-            name: 'Mushroom_Farm',
-            description: 'IoT-based mushroom farm automation system with sensor monitoring and environmental controls.',
+            name: 'Gods_eye',
+            description: 'AI-powered surveillance system with real-time object detection and intelligent monitoring capabilities.',
+            language: 'JavaScript',
+            stargazers_count: 0,
+            forks_count: 0,
+            pushed_at: new Date().toISOString(),
+            html_url: 'https://github.com/nandhubabu/Gods_eye'
+        },
+        {
+            name: 'CodeNova-AI',
+            description: 'AI-powered code generation and assistance tool leveraging large language models for intelligent coding.',
             language: 'Python',
             stargazers_count: 1,
             forks_count: 0,
             pushed_at: new Date().toISOString(),
-            html_url: 'https://github.com/nandhubabu/Mushroom_Farm'
+            html_url: 'https://github.com/nandhubabu/CodeNova-AI'
+        },
+        {
+            name: 'echo_Real-time-chat-app',
+            description: 'Full-stack real-time chat application with Socket.io, user authentication, and live messaging.',
+            language: 'JavaScript',
+            stargazers_count: 1,
+            forks_count: 0,
+            pushed_at: new Date().toISOString(),
+            html_url: 'https://github.com/nandhubabu/echo_Real-time-chat-app',
+            homepage: 'https://echo-real-time-chat-app-psi.vercel.app'
+        },
+        {
+            name: 'Aethel',
+            description: 'Modern web application with elegant UI and full-stack architecture deployed on Vercel.',
+            language: 'JavaScript',
+            stargazers_count: 0,
+            forks_count: 0,
+            pushed_at: new Date().toISOString(),
+            html_url: 'https://github.com/nandhubabu/Aethel',
+            homepage: 'https://aethel-five-rouge.vercel.app'
+        },
+        {
+            name: 'EduPlatform',
+            description: 'Full-stack educational platform with React frontend and Node.js backend for interactive learning.',
+            language: 'JavaScript',
+            stargazers_count: 0,
+            forks_count: 0,
+            pushed_at: new Date().toISOString(),
+            html_url: 'https://github.com/nandhubabu/EduPlatform',
+            homepage: 'https://edu-platform-jade.vercel.app/'
+        },
+        {
+            name: 'ecommerce',
+            description: 'E-commerce platform built with Python featuring product management, cart system, and payment integration.',
+            language: 'Python',
+            stargazers_count: 0,
+            forks_count: 0,
+            pushed_at: new Date().toISOString(),
+            html_url: 'https://github.com/nandhubabu/ecommerce'
+        },
+        {
+            name: 'V2V_communication_RL_Model',
+            description: 'Vehicle-to-Vehicle communication system using Reinforcement Learning for optimized data exchange.',
+            language: 'Python',
+            stargazers_count: 0,
+            forks_count: 0,
+            pushed_at: new Date().toISOString(),
+            html_url: 'https://github.com/nandhubabu/V2V_communication_RL_Model'
         },
         {
             name: 'DMS_with_Action',
             description: 'Driver Monitoring System with real-time action detection for enhanced road safety.',
             language: 'Python',
-            stargazers_count: 1,
+            stargazers_count: 0,
             forks_count: 0,
             pushed_at: new Date().toISOString(),
             html_url: 'https://github.com/nandhubabu/DMS_with_Action'
         },
         {
-            name: 'Driver-Drowsiness-Detection',
-            description: 'Real-time driver drowsiness detection using computer vision and facial landmark analysis.',
-            language: 'Python',
-            stargazers_count: 1,
+            name: 'Bluetooth_Data_Sender',
+            description: 'Android app built with Kotlin for Bluetooth-based data transfer between devices.',
+            language: 'Kotlin',
+            stargazers_count: 0,
             forks_count: 0,
             pushed_at: new Date().toISOString(),
-            html_url: 'https://github.com/nandhubabu/Driver-Drowsiness-Detection'
+            html_url: 'https://github.com/nandhubabu/Bluetooth_Data_Sender'
         },
         {
             name: 'RL-Dino-Game',
@@ -393,49 +450,23 @@ function renderFallbackProjects(grid) {
             html_url: 'https://github.com/nandhubabu/RL-Dino-Game'
         },
         {
-            name: 'Food-Classification',
-            description: 'Deep learning model for classifying food items from images with a web interface.',
+            name: 'Newsmate',
+            description: 'News aggregation and summarization web app with curated feeds and Vercel deployment.',
+            language: 'JavaScript',
+            stargazers_count: 0,
+            forks_count: 0,
+            pushed_at: new Date().toISOString(),
+            html_url: 'https://github.com/nandhubabu/Newsmate',
+            homepage: 'https://newsmate-one.vercel.app'
+        },
+        {
+            name: 'Mushroom_Farm',
+            description: 'IoT-based mushroom farm automation with Raspberry Pi sensor monitoring and environmental controls.',
             language: 'Python',
             stargazers_count: 0,
             forks_count: 0,
             pushed_at: new Date().toISOString(),
-            html_url: 'https://github.com/nandhubabu/Food-Classification'
-        },
-        {
-            name: 'v2x_hub',
-            description: 'Vehicle-to-Everything (V2X) communication hub for coordinating connected vehicles.',
-            language: 'JavaScript',
-            stargazers_count: 0,
-            forks_count: 0,
-            pushed_at: new Date().toISOString(),
-            html_url: 'https://github.com/nandhubabu/v2x_hub'
-        },
-        {
-            name: 'Face-Recognition-Attendance-System',
-            description: 'Automated attendance system using face recognition technology.',
-            language: 'Python',
-            stargazers_count: 0,
-            forks_count: 0,
-            pushed_at: new Date().toISOString(),
-            html_url: 'https://github.com/nandhubabu/Face-Recognition-Attendance-System'
-        },
-        {
-            name: 'EduPlatform-backend',
-            description: 'Backend API for an educational platform built with Node.js.',
-            language: 'JavaScript',
-            stargazers_count: 0,
-            forks_count: 0,
-            pushed_at: new Date().toISOString(),
-            html_url: 'https://github.com/nandhubabu/EduPlatform-backend'
-        },
-        {
-            name: 'EduPlatform-frontend',
-            description: 'React-based frontend for the EduPlatform educational system.',
-            language: 'JavaScript',
-            stargazers_count: 0,
-            forks_count: 0,
-            pushed_at: new Date().toISOString(),
-            html_url: 'https://github.com/nandhubabu/EduPlatform-frontend'
+            html_url: 'https://github.com/nandhubabu/Mushroom_Farm'
         }
     ];
 
@@ -512,7 +543,15 @@ function formatRepoName(name) {
 
 function getProjectDescription(name) {
     const descriptions = {
-        'Mushroom_Farm': 'IoT-based mushroom farm automation system with sensor monitoring and environmental controls.',
+        'Gods_eye': 'AI-powered surveillance system with real-time object detection and intelligent monitoring.',
+        'CodeNova-AI': 'AI-powered code generation tool leveraging large language models for intelligent coding assistance.',
+        'Aethel': 'Modern web application with elegant UI and full-stack architecture deployed on Vercel.',
+        'echo_Real-time-chat-app': 'Full-stack real-time chat app with Socket.io, authentication, and live messaging.',
+        'ecommerce': 'E-commerce platform with product management, cart system, and payment integration.',
+        'EduPlatform': 'Full-stack educational platform with React frontend and Node.js backend.',
+        'V2V_communication_RL_Model': 'Vehicle-to-Vehicle communication using Reinforcement Learning for optimized data exchange.',
+        'Bluetooth_Data_Sender': 'Android app built with Kotlin for Bluetooth-based data transfer between devices.',
+        'Mushroom_Farm': 'IoT-based mushroom farm automation with Raspberry Pi sensor monitoring and environmental controls.',
         'DMS_with_Action': 'Driver Monitoring System with real-time action detection for enhanced road safety.',
         'Driver-Drowsiness-Detection': 'Real-time driver drowsiness detection using computer vision and facial landmark analysis.',
         'RL-Dino-Game': 'Reinforcement learning agent trained to play the Chrome Dino game autonomously.',
@@ -522,10 +561,10 @@ function getProjectDescription(name) {
         'Face-Recognition-Attendance-System': 'Automated attendance system using face recognition technology.',
         'Music-Recommendation-System': 'Machine learning-based music recommendation engine.',
         'V2X-Delay-Simulator': 'Simulation tool for testing V2X communication delay scenarios.',
-        'EduPlatform-backend': 'Backend API for an educational platform built with Node.js.',
+        'EduPlatform-backend': 'Backend API for an educational platform built with Node.js and Express.',
         'EduPlatform-frontend': 'React-based frontend for the EduPlatform educational system.',
         'Portfolio': 'Personal portfolio website showcasing projects and skills.',
-        'Newsmate': 'News aggregation and summarization web application.',
+        'Newsmate': 'News aggregation and summarization web application with curated feeds.',
         'Pytorch': 'Collection of PyTorch deep learning experiments and implementations.',
         'Basic-Repo-rector': 'Python tool for automating basic repository restructuring tasks.',
         'Person-recognition-and-age-emotion-detection': 'Computer vision system for person recognition, age estimation, and emotion detection.',
@@ -536,6 +575,26 @@ function getProjectDescription(name) {
         'java': 'Collection of Java programming exercises and implementations.',
         'My-Portfolio': 'Personal portfolio website with modern design.',
         'My-Portfolio-': 'Portfolio website with Next.js and Vercel deployment.',
+        'Spotify_clone': 'Spotify UI clone with music playback functionality.',
+        'Online-Voting-System': 'Web-based online voting system with secure authentication.',
+        'Notemate': 'Note-taking web application with EJS templating and CRUD operations.',
+        'ML---basics': 'Machine learning fundamentals with Jupyter Notebook experiments.',
+        'Esp-32-Automation': 'ESP32-based IoT automation system for smart home controls.',
+        'RFID-Google-Sheets-Attendance': 'RFID-based attendance system integrated with Google Sheets using C++.',
+        'image-editor': 'Advanced image editor web application built with TypeScript.',
+        'React-Basics': 'React.js fundamentals and component-based architecture practice.',
+        'Emoji-Pidia': 'Emoji encyclopedia web app with search and discovery features.',
+        'image-filter-app': 'React-based image filter application with real-time preview.',
+        'Network-Lab': 'Computer networking lab programs implemented in C.',
+        'React-Reselling-App': 'React-based reselling marketplace application.',
+        'pond_monitor': 'IoT pond monitoring system with real-time sensor data visualization.',
+        'Traffic-Accident-Identifier': 'Traffic accident detection and identification system.',
+        'E-commerce-using-flask': 'E-commerce web application built with Flask framework.',
+        'Image-to-text': 'OCR-based image to text extraction tool using Python.',
+        'Meme-Generator': 'Dynamic meme generator web application with custom templates.',
+        'SDG-Explorer': 'Interactive explorer for UN Sustainable Development Goals.',
+        'Interactive-Quiz-Application': 'Dynamic quiz application with scoring and feedback system.',
+        '100-day-s-Python': '100 Days of Python programming challenge solutions.',
     };
 
     return descriptions[name] || 'A project exploring modern software development techniques.';
@@ -547,11 +606,13 @@ function getLanguageColor(language) {
         'JavaScript': '#f1e05a',
         'TypeScript': '#3178c6',
         'Java': '#b07219',
+        'Kotlin': '#A97BFF',
         'CSS': '#563d7c',
         'HTML': '#e34c26',
         'C': '#555555',
         'C++': '#f34b7d',
         'Jupyter Notebook': '#DA5B0B',
+        'EJS': '#a91e50',
     };
     return colors[language] || '#8892b0';
 }
