@@ -5,554 +5,485 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Nandhu Babu — Software Developer, Computer Science Student, and Aspiring Machine Learning Engineer. Explore my projects, skills, and technical expertise.">
-    <meta property="og:title" content="Nandhu Babu | Software Developer & ML Engineer">
+        content="Nandhu Babu — Full Stack Developer & AI/ML Engineer. Interactive 3D portfolio showcasing deep learning, computer vision, and distributed systems.">
+    <meta property="og:title" content="Nandhu Babu | Creative Developer & ML Engineer">
     <meta property="og:description"
-        content="Personal portfolio of Nandhu Babu. Discover projects in Deep Learning, Computer Vision, and Full Stack Development.">
+        content="Interactive 3D Portfolio of Nandhu Babu. Explore projects in Deep Learning, Computer Vision, Edge IoT, and Full Stack Web Development.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nandhubabu.github.io">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Nandhu Babu | Software Developer & ML Engineer">
-    <meta name="twitter:description"
-        content="Personal portfolio of Nandhu Babu. Discover projects in Deep Learning, Computer Vision, and Full Stack Development.">
-    <title>Nandhu Babu | Software Developer & ML Engineer</title>
+    <title>Nandhu Babu &mdash; Creative Developer &amp; ML Engineer</title>
     <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0e1a'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='800' font-size='15' fill='%2300d4ff'%3ENB%3C/text%3E%3C/svg%3E">
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23050914'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='16' fill='%2300d4ff'%3ENB%3C/text%3E%3C/svg%3E">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
+
+    <!-- Three.js via Cloudflare CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- Cursor Glow (desktop only) -->
-    <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+    <!-- Custom 3D Interactive Cursor -->
+    <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress-bar" id="scroll-progress" aria-hidden="true"></div>
+    <!-- WebGL Fullscreen 3D Ambient Scene Canvas -->
+    <canvas id="webgl-canvas" aria-label="Interactive 3D Ambient Canvas"></canvas>
+
+    <!-- Top Screen Scroll Progress -->
+    <div class="scroll-progress-line" id="scroll-progress" aria-hidden="true"></div>
 
     <!-- Toast Notification -->
     <div class="toast" id="toast" role="alert" aria-live="assertive">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
         <span id="toast-message">Copied to clipboard!</span>
     </div>
 
-    <!-- Navigation Dock -->
-    <nav class="nav-dock" id="nav-dock">
-        <a href="#home" class="nav-dock-link active" aria-label="Home">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            <span class="nav-dock-label">Home</span>
-        </a>
-        <a href="#about" class="nav-dock-link" aria-label="About">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span class="nav-dock-label">About</span>
-        </a>
-        <a href="#skills" class="nav-dock-link" aria-label="Skills">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="16 18 22 12 16 6"></polyline>
-                <polyline points="8 6 2 12 8 18"></polyline>
-            </svg>
-            <span class="nav-dock-label">Skills</span>
-        </a>
-        <a href="#projects" class="nav-dock-link" aria-label="Projects">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-            </svg>
-            <span class="nav-dock-label">Projects</span>
-        </a>
-        <a href="#contact" class="nav-dock-link" aria-label="Contact">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-            <span class="nav-dock-label">Contact</span>
-        </a>
-    </nav>
+    <!-- Top Navigation -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-brand" aria-label="Nandhu Babu Home">
+                <span class="brand-monogram">NB</span>
+                <span class="brand-name">Nandhu Babu</span>
+            </a>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-bg-effects">
-            <canvas id="particle-canvas" aria-hidden="true"></canvas>
-            <div class="hero-orb hero-orb-1"></div>
-            <div class="hero-orb hero-orb-2"></div>
-            <div class="hero-orb hero-orb-3"></div>
-            <div class="hero-grid"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-badge">
-                <span class="badge-dot"></span>
-                Available for opportunities
-            </div>
-            <h1 class="hero-title">
-                Hi, I'm <span class="hero-name">Nandhu Babu</span>
-            </h1>
-            <div class="hero-tagline">
-                <span class="tagline-prefix">&gt;</span>
-                <span class="typewriter" id="typewriter"></span>
-                <span class="cursor">|</span>
-            </div>
-            <p class="hero-description">
-                Building innovative solutions at the intersection of AI and real-world applications.
-                Passionate about deep learning, computer vision, full-stack development, and intelligent systems.
-            </p>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-number" data-target="71">0</span>
-                    <span class="stat-label">Repositories</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="13">0</span>
-                    <span class="stat-label">Followers</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="3">0</span>
-                    <span class="stat-label">Years Coding</span>
-                </div>
-            </div>
-            <div class="hero-cta">
-                <a href="#projects" class="btn btn-primary">
-                    <span>View My Work</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
+            <nav class="nav-links" id="nav-links">
+                <a href="#hero" class="nav-anchor active"><span>01</span> Home</a>
+                <a href="#about" class="nav-anchor"><span>02</span> About</a>
+                <a href="#skills" class="nav-anchor"><span>03</span> Skills</a>
+                <a href="#projects" class="nav-anchor"><span>04</span> Works</a>
+                <a href="#contact" class="nav-anchor"><span>05</span> Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="https://drive.google.com/file/d/1spjJXZLKXTanieelkut9rvFxiV6oqirq/view?usp=sharing"
+                    target="_blank" rel="noopener noreferrer" class="btn-resume-nav">
+                    <span>Resume</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7 7 17 7 17 17"></polyline>
                     </svg>
                 </a>
-                <a href="https://drive.google.com/file/d/1spjJXZLKXTanieelkut9rvFxiV6oqirq/view?usp=sharing" target="_blank" rel="noopener noreferrer"
-                    class="btn btn-secondary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                    <span>Download CV</span>
-                </a>
-                <a href="https://github.com/nandhubabu" target="_blank" rel="noopener noreferrer"
-                    class="btn btn-secondary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                    </svg>
-                    <span>GitHub Profile</span>
-                </a>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <div class="scroll-line"></div>
-            <span>Scroll</span>
-        </div>
-    </section>
+    </header>
 
-    <div class="section-divider"></div>
+    <!-- Main Spatial Content -->
+    <main class="spatial-main">
 
-    <!-- About Section -->
-    <section class="section" id="about">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">About Me</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="about-grid">
-                <div class="about-card glass-card reveal">
-                    <div class="about-icon">🔭</div>
-                    <h3>Currently Working On</h3>
-                    <p>AI-powered surveillance systems (Gods Eye), real-time chat applications (Echo), V2V communication with RL models, and full-stack platforms like EduPlatform and Aethel.</p>
-                </div>
-                <div class="about-card glass-card reveal">
-                    <div class="about-icon">🌱</div>
-                    <h3>Currently Learning</h3>
-                    <p>Large Language Models, advanced DSA & algorithms, Kotlin for Android development, MongoDB & database design, and production-scale deployment strategies.</p>
-                </div>
-                <div class="about-card glass-card reveal">
-                    <div class="about-icon">💡</div>
-                    <h3>Interests</h3>
-                    <p>Building full-stack web apps with React & Node.js, AI-driven computer vision systems, IoT automation with Raspberry Pi & ESP32, and Android development.</p>
-                </div>
-                <div class="about-card glass-card reveal">
-                    <div class="about-icon">🎯</div>
-                    <h3>Goal</h3>
-                    <p>To engineer intelligent, production-ready solutions that bridge AI, IoT, and modern web technologies to solve real-world problems at scale.</p>
-                </div>
-            </div>
-            <div class="about-quote reveal">
-                <blockquote>
-                    "Debugging is like being the detective in a crime movie where you are also the murderer 🕵️‍♂️!"
-                </blockquote>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- Skills Section -->
-    <section class="section section-alt" id="skills">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Technical Skills</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="skills-grid">
-                <div class="skill-category glass-card reveal">
-                    <div class="skill-cat-header">
-                        <span class="skill-cat-icon">💻</span>
-                        <h3>Programming Languages</h3>
+        <!-- 01. Hero Section: Bio + Animated 3D Person Bust (Cursor Synced, No Card) -->
+        <section class="section section-hero" id="hero">
+            <div class="container hero-split-grid">
+                
+                <!-- Left: Impact Intro & Typography -->
+                <div class="hero-left-col">
+                    <div class="hero-status-tag">
+                        <span class="status-live-dot"></span>
+                        <span>Available for Opportunities &bull; 2026 Grad</span>
                     </div>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Python</span><span class="skill-level">95%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="95"></div>
+
+                    <h1 class="hero-display-title">
+                        NANDHU<br>
+                        <span class="title-outline">BABU</span>
+                    </h1>
+
+                    <div class="hero-subtitle-pill">
+                        <span class="mono-prefix">&gt;</span>
+                        <span class="typewriter" id="typewriter"></span>
+                        <span class="cursor-bar">|</span>
+                    </div>
+
+                    <p class="hero-mission-statement">
+                        Crafting intelligent software systems at the convergence of <strong class="name-highlight">Deep Learning</strong>,
+                        <strong class="name-highlight">Computer Vision</strong>, <strong class="name-highlight">Edge IoT</strong>, and
+                        resilient <strong class="name-highlight">Full-Stack Cloud</strong> platforms.
+                    </p>
+
+                    <div class="hero-action-row">
+                        <a href="#projects" class="btn-primary-3d">
+                            <span>Explore Projects</span>
+                            <div class="btn-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
                             </div>
+                        </a>
+                        <a href="#contact" class="btn-ghost-3d">
+                            <span>Get in Touch</span>
+                        </a>
+                    </div>
+
+                    <!-- Quick Credentials Bar -->
+                    <div class="hero-quick-meta">
+                        <div class="meta-item">
+                            <span class="meta-val counter" data-target="71">0</span><span class="meta-plus">+</span>
+                            <span class="meta-lbl">Repositories</span>
                         </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>JavaScript</span><span class="skill-level">90%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="90"></div>
-                            </div>
+                        <div class="meta-divider"></div>
+                        <div class="meta-item">
+                            <span class="meta-val counter" data-target="3">0</span><span class="meta-plus">+</span>
+                            <span class="meta-lbl">Years Experience</span>
                         </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>TypeScript</span><span class="skill-level">72%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="72"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Java</span><span class="skill-level">65%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="65"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Kotlin</span><span class="skill-level">55%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="55"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>C / C++</span><span class="skill-level">60%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="60"></div>
-                            </div>
+                        <div class="meta-divider"></div>
+                        <div class="meta-item">
+                            <span class="meta-val">B.Tech</span>
+                            <span class="meta-lbl">Amal Jyothi '26</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="skill-category glass-card reveal">
-                    <div class="skill-cat-header">
-                        <span class="skill-cat-icon">🤖</span>
-                        <h3>AI & Machine Learning</h3>
-                    </div>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <div class="skill-info"><span>PyTorch</span><span class="skill-level">82%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="82"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Scikit-learn</span><span class="skill-level">85%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="85"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>OpenCV</span><span class="skill-level">88%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="88"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Deep Learning (CNNs, RNNs)</span><span class="skill-level">78%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="78"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Reinforcement Learning</span><span
-                                    class="skill-level">70%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="70"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>NLP & LLM Integration</span><span class="skill-level">60%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="60"></div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </section>
+
+        <!-- 02. About Section: Developer Dossier -->
+        <section class="section section-about" id="about">
+            <div class="container">
+                <div class="section-badge">
+                    <span class="badge-index">02</span>
+                    <span class="badge-text">Developer Profile</span>
                 </div>
 
-                <div class="skill-category glass-card reveal">
-                    <div class="skill-cat-header">
-                        <span class="skill-cat-icon">🌐</span>
-                        <h3>Web Development</h3>
-                    </div>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <div class="skill-info"><span>React.js / Next.js</span><span class="skill-level">82%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="82"></div>
+                <div class="about-spatial-grid">
+                    <!-- Story Card -->
+                    <div class="glass-3d-panel story-panel">
+                        <h2 class="panel-headline">Engineering at the Intersection of AI &amp; Real-World Systems</h2>
+                        <p class="panel-body">
+                            I am a software engineer focused on building intelligent, robust, and scalable solutions.
+                            Whether training custom reinforcement learning models for Vehicle-to-Vehicle (V2V) coordination,
+                            developing computer vision surveillance platforms like Gods Eye, or architecting full-stack
+                            distributed applications, I design systems that bridge cutting-edge algorithms with intuitive user interfaces.
+                        </p>
+                        <div class="panel-stats-inline">
+                            <div class="inline-stat">
+                                <span class="stat-big counter" data-target="71">0</span><span class="stat-unit">+</span>
+                                <span class="stat-name">Repositories Built</span>
                             </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Node.js / Express.js</span><span class="skill-level">80%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="80"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>HTML / CSS / TailwindCSS</span><span class="skill-level">92%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="92"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>MongoDB / Mongoose</span><span class="skill-level">75%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="75"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Flask / Django</span><span class="skill-level">72%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="72"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Socket.io / WebSockets</span><span class="skill-level">70%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="70"></div>
+                            <div class="inline-stat">
+                                <span class="stat-big counter" data-target="3">0</span><span class="stat-unit">+</span>
+                                <span class="stat-name">Years Crafting Code</span>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="skill-category glass-card reveal">
-                    <div class="skill-cat-header">
-                        <span class="skill-cat-icon">🛠️</span>
-                        <h3>Tools & Platforms</h3>
+                    <!-- Education Credentials Card -->
+                    <div class="glass-3d-panel education-panel">
+                        <div class="panel-top-tag">Verified Academic Path</div>
+                        <h3 class="panel-subhead">B.Tech in Computer Science &amp; Engineering</h3>
+                        <p class="college-title">Amal Jyothi College of Engineering <span class="pill-inline">Autonomous</span></p>
+                        <div class="edu-timeline-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span>2023 &mdash; 2026 &bull; Lateral Entry</span>
+                        </div>
+                        <ul class="edu-highlights-list">
+                            <li><span>Focus Area</span>: Deep Learning, Computer Vision &amp; Robotics</li>
+                            <li><span>Research</span>: V2V Communication protocols via RL</li>
+                            <li><span>Codebases</span>: Over 70+ open-source projects on GitHub</li>
+                        </ul>
                     </div>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Raspberry Pi / ESP32 / IoT</span><span class="skill-level">78%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="78"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Android (Kotlin)</span><span class="skill-level">55%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="55"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Jupyter Notebook</span><span class="skill-level">72%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="72"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Streamlit</span><span class="skill-level">70%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="70"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Arduino IDE</span><span class="skill-level">75%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="75"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>AI Agents (Antigravity / Cursor)</span><span class="skill-level">80%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="80"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="skill-category glass-card reveal">
-                    <div class="skill-cat-header">
-                        <span class="skill-cat-icon">🚀</span>
-                        <h3>DevOps & Deployment</h3>
-                    </div>
-                    <div class="skill-items">
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Git & GitHub</span><span class="skill-level">92%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="92"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Linux / Shell</span><span class="skill-level">80%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="80"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Vercel</span><span class="skill-level">82%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="82"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Render / GitHub Pages</span><span class="skill-level">75%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="75"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>Docker</span><span class="skill-level">60%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="60"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>GitHub Actions / CI-CD</span><span class="skill-level">65%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="65"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info"><span>AWS EC2</span><span class="skill-level">55%</span></div>
-                            <div class="skill-bar">
-                                <div class="skill-fill" data-width="55"></div>
-                            </div>
+                    <!-- Philosophy Quote -->
+                    <div class="glass-3d-panel quote-panel">
+                        <span class="quote-glyph">&ldquo;</span>
+                        <blockquote class="quote-text">
+                            Debugging is like being the detective in a crime movie where you are also the murderer 🕵️‍♂️!
+                        </blockquote>
+                        <div class="quote-signature">
+                            <span class="sig-line"></span>
+                            <span>Nandhu Babu &mdash; Core Philosophy</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <div class="section-divider"></div>
+        <!-- 03. Skills Section: Verified Capabilities -->
+        <section class="section section-skills" id="skills">
+            <div class="container">
+                <div class="section-badge">
+                    <span class="badge-index">03</span>
+                    <span class="badge-text">Technical Capabilities</span>
+                </div>
 
-    <!-- Projects Section -->
-    <section class="section" id="projects">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Featured Projects</h2>
-                <div class="section-line"></div>
-                <p class="section-subtitle">Dynamically loaded from my GitHub repositories</p>
-            </div>
-            <div class="projects-filter">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="Python">Python</button>
-                <button class="filter-btn" data-filter="JavaScript">JavaScript</button>
-                <button class="filter-btn" data-filter="TypeScript">TypeScript</button>
-                <button class="filter-btn" data-filter="other">Other</button>
-            </div>
-            <div class="projects-grid" id="projects-grid">
-                <!-- Dynamically loaded via JS -->
-                <div class="projects-loading">
-                    <div class="loading-spinner"></div>
-                    <p>Loading projects from GitHub...</p>
+                <div class="skills-spatial-grid">
+                    <!-- AI & ML -->
+                    <div class="glass-3d-panel skill-panel">
+                        <div class="panel-header-icon">
+                            <span class="icon-circle">🤖</span>
+                            <div>
+                                <h3 class="panel-title">AI &amp; Machine Learning</h3>
+                                <p class="panel-sub">Neural models, vision pipelines &amp; reinforcement learning</p>
+                            </div>
+                        </div>
+                        <div class="tags-cloud">
+                            <span class="tech-tag tag-featured">PyTorch</span>
+                            <span class="tech-tag tag-featured">OpenCV</span>
+                            <span class="tech-tag">Scikit-learn</span>
+                            <span class="tech-tag">Deep Learning (CNNs, RNNs)</span>
+                            <span class="tech-tag">Reinforcement Learning</span>
+                            <span class="tech-tag">NLP &amp; LLMs</span>
+                            <span class="tech-tag">MediaPipe</span>
+                            <span class="tech-tag">NumPy</span>
+                            <span class="tech-tag">Pandas</span>
+                        </div>
+                    </div>
+
+                    <!-- DevOps & Cloud (Dedicated Section) -->
+                    <div class="glass-3d-panel skill-panel">
+                        <div class="panel-header-icon">
+                            <span class="icon-circle">🚀</span>
+                            <div>
+                                <h3 class="panel-title">DevOps &amp; Cloud</h3>
+                                <p class="panel-sub">Containerization, CI/CD automation &amp; infrastructure</p>
+                            </div>
+                        </div>
+                        <div class="tags-cloud">
+                            <span class="tech-tag tag-featured">Docker</span>
+                            <span class="tech-tag tag-featured">GitHub Actions / Workflows</span>
+                            <span class="tech-tag tag-featured">AWS EC2</span>
+                            <span class="tech-tag">Linux / Shell Scripting</span>
+                            <span class="tech-tag">Vercel</span>
+                            <span class="tech-tag">Render</span>
+                            <span class="tech-tag">GitHub Pages</span>
+                            <span class="tech-tag">Git / Version Control</span>
+                        </div>
+                    </div>
+
+                    <!-- Full Stack Web -->
+                    <div class="glass-3d-panel skill-panel">
+                        <div class="panel-header-icon">
+                            <span class="icon-circle">🌐</span>
+                            <div>
+                                <h3 class="panel-title">Full Stack Web</h3>
+                                <p class="panel-sub">Reactive interfaces &amp; scalable backend services</p>
+                            </div>
+                        </div>
+                        <div class="tags-cloud">
+                            <span class="tech-tag tag-featured">React.js</span>
+                            <span class="tech-tag tag-featured">Next.js</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">Express.js</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">MongoDB &amp; Mongoose</span>
+                            <span class="tech-tag">Flask</span>
+                            <span class="tech-tag">Socket.io</span>
+                            <span class="tech-tag">TailwindCSS</span>
+                            <span class="tech-tag">HTML5 / CSS3</span>
+                        </div>
+                    </div>
+
+                    <!-- Tools & AI Platforms -->
+                    <div class="glass-3d-panel skill-panel">
+                        <div class="panel-header-icon">
+                            <span class="icon-circle">🛠️</span>
+                            <div>
+                                <h3 class="panel-title">Tools &amp; AI Platforms</h3>
+                                <p class="panel-sub">Agent-driven workflows &amp; microcontrollers</p>
+                            </div>
+                        </div>
+                        <div class="tags-cloud">
+                            <span class="tech-tag tag-featured">Antigravity IDE</span>
+                            <span class="tech-tag tag-featured">Cursor</span>
+                            <span class="tech-tag tag-featured">Arduino IDE</span>
+                            <span class="tech-tag">Raspberry Pi</span>
+                            <span class="tech-tag">ESP32 / IoT</span>
+                            <span class="tech-tag">Jupyter Notebook</span>
+                            <span class="tech-tag">Streamlit</span>
+                            <span class="tech-tag">Postman</span>
+                        </div>
+                    </div>
+
+                    <!-- Programming Languages -->
+                    <div class="glass-3d-panel skill-panel">
+                        <div class="panel-header-icon">
+                            <span class="icon-circle">💻</span>
+                            <div>
+                                <h3 class="panel-title">Programming Languages</h3>
+                                <p class="panel-sub">Computational core languages</p>
+                            </div>
+                        </div>
+                        <div class="tags-cloud">
+                            <span class="tech-tag tag-featured">Python</span>
+                            <span class="tech-tag tag-featured">JavaScript</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">C / C++</span>
+                            <span class="tech-tag">Java</span>
+                            <span class="tech-tag">Kotlin</span>
+                            <span class="tech-tag">SQL</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-
-    <div class="section-divider"></div>
-
-    <!-- Contact Section -->
-    <section class="section" id="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Get In Touch</h2>
-                <div class="section-line"></div>
-                <p class="section-subtitle">Interested in collaborating or have a project in mind? Let's connect!</p>
-            </div>
-            <div class="contact-grid">
-                <a href="https://github.com/nandhubabu" target="_blank" rel="noopener noreferrer"
-                    class="contact-card glass-card reveal">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                    </svg>
-                    <h3>GitHub</h3>
-                    <p>@nandhubabu</p>
-                </a>
-                <a href="mailto:nandhubabuvktd@gmail.com" class="contact-card glass-card reveal" aria-label="Send email to nandhubabuvktd@gmail.com">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    <h3>Email</h3>
-                    <p>nandhubabuvktd@gmail.com</p>
-                </a>
-                <a href="https://www.linkedin.com/in/nandhu-babu" target="_blank" rel="noopener noreferrer"
-                    class="contact-card glass-card reveal" aria-label="Visit Nandhu Babu on LinkedIn">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                    <h3>LinkedIn</h3>
-                    <p>nandhu-babu</p>
-                </a>
-                <a href="https://drive.google.com/file/d/1spjJXZLKXTanieelkut9rvFxiV6oqirq/view?usp=sharing" target="_blank" rel="noopener noreferrer"
-                    class="contact-card glass-card reveal" aria-label="View or Download Nandhu Babu's Resume">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
-                    <h3>Resume</h3>
-                    <p>View / Download CV</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">NB</div>
-                <p class="footer-text">Designed & Built by Nandhu Babu © 2026</p>
-                <div class="footer-links">
-                    <a href="https://github.com/nandhubabu" target="_blank" rel="noopener noreferrer"
-                        aria-label="GitHub">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                        </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/nandhu-babu" target="_blank" rel="noopener noreferrer"
-                        aria-label="LinkedIn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                        </svg>
-                    </a>
+        <!-- 04. Projects Section: Deployed Works -->
+        <section class="section section-projects" id="projects">
+            <div class="container">
+                <div class="section-badge">
+                    <span class="badge-index">04</span>
+                    <span class="badge-text">Selected Works</span>
                 </div>
+
+                <div class="section-heading-wrap">
+                    <h2 class="section-headline">Featured Systems &amp; Deployed Works</h2>
+                    <p class="section-subheadline">
+                        Curated collection of 22+ deep learning architectures, full-stack platforms, IoT hardware, and system utilities from over 71+ repositories.
+                    </p>
+                </div>
+
+                <div class="projects-control-bar">
+                    <div class="filter-pill-container">
+                        <button class="filter-btn active" data-filter="all">All Projects (<span id="count-all">22</span>)</button>
+                        <button class="filter-btn" data-filter="ai">AI &bull; Deep Learning (<span id="count-ai">7</span>)</button>
+                        <button class="filter-btn" data-filter="web">Full Stack Web (<span id="count-web">9</span>)</button>
+                        <button class="filter-btn" data-filter="iot">IoT &bull; Hardware (<span id="count-iot">3</span>)</button>
+                        <button class="filter-btn" data-filter="mobile">System &bull; Mobile (<span id="count-mobile">3</span>)</button>
+                    </div>
+                </div>
+
+                <div class="projects-display-grid" id="projects-grid">
+                    <!-- Loaded dynamically via GitHub API & Curated Telemetry -->
+                    <div class="projects-loading-spinner">
+                        <div class="spinner-circle"></div>
+                        <p>Syncing repositories from GitHub...</p>
+                    </div>
+                </div>
+
+                <!-- Explore All 71+ Repositories Call to Action -->
+                <div class="projects-github-cta">
+                    <div class="cta-inner-panel glass-3d-panel">
+                        <div class="cta-text">
+                            <h3 class="cta-title">Looking for more source code?</h3>
+                            <p class="cta-desc">
+                                Explore all 71+ public repositories on GitHub including algorithmic solvers, experimental microservices, and system utilities.
+                            </p>
+                        </div>
+                        <a href="https://github.com/nandhubabu?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn-primary-3d">
+                            <span>Explore All 71+ on GitHub</span>
+                            <span class="btn-arrow">&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05. Contact Section: Direct Uplink -->
+        <section class="section section-contact" id="contact">
+            <div class="container">
+                <div class="section-badge">
+                    <span class="badge-index">05</span>
+                    <span class="badge-text">Initialize Connection</span>
+                </div>
+
+                <div class="contact-spatial-wrap">
+                    <div class="contact-header-block">
+                        <h2 class="contact-giant-title">LET&rsquo;S BUILD<br><span class="title-highlight">SOMETHING ICONIC</span></h2>
+                        <p class="contact-desc">
+                            Have an engineering challenge, AI research project, or ambitious opportunity?
+                            Reach out directly through any of the channels below.
+                        </p>
+                    </div>
+
+                    <div class="contact-cards-grid">
+                        <!-- Direct Email Card with Instant Copy -->
+                        <div class="contact-glass-card" id="btn-copy-email" role="button" tabindex="0"
+                            aria-label="Copy Email address to clipboard">
+                            <div class="card-icon-halo">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <div class="card-text-group">
+                                <span class="card-eyebrow">DIRECT EMAIL</span>
+                                <span class="card-main-val">nandhubabuvktd@gmail.com</span>
+                                <span class="card-hint">Click to copy address &bull; Instant</span>
+                            </div>
+                        </div>
+
+                        <!-- GitHub Profile -->
+                        <a href="https://github.com/nandhubabu" target="_blank" rel="noopener noreferrer"
+                            class="contact-glass-card" aria-label="Visit GitHub Profile">
+                            <div class="card-icon-halo">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                </svg>
+                            </div>
+                            <div class="card-text-group">
+                                <span class="card-eyebrow">OPEN SOURCE</span>
+                                <span class="card-main-val">github.com/nandhubabu</span>
+                                <span class="card-hint">71+ Repositories &bull; Codebases</span>
+                            </div>
+                        </a>
+
+                        <!-- LinkedIn Profile -->
+                        <a href="https://www.linkedin.com/in/nandhu-babu" target="_blank" rel="noopener noreferrer"
+                            class="contact-glass-card" aria-label="Visit LinkedIn Profile">
+                            <div class="card-icon-halo">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                </svg>
+                            </div>
+                            <div class="card-text-group">
+                                <span class="card-eyebrow">PROFESSIONAL</span>
+                                <span class="card-main-val">linkedin.com/in/nandhu-babu</span>
+                                <span class="card-hint">Connect with me &bull; Network</span>
+                            </div>
+                        </a>
+
+                        <!-- Resume Link -->
+                        <a href="https://drive.google.com/file/d/1spjJXZLKXTanieelkut9rvFxiV6oqirq/view?usp=sharing"
+                            target="_blank" rel="noopener noreferrer" class="contact-glass-card"
+                            aria-label="View or Download Resume">
+                            <div class="card-icon-halo">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="card-text-group">
+                                <span class="card-eyebrow">CURRICULUM VITAE</span>
+                                <span class="card-main-val">Official Resume PDF</span>
+                                <span class="card-hint">Google Drive &bull; Updated 2026</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Minimal Spatial Footer -->
+    <footer class="spatial-footer">
+        <div class="container footer-row">
+            <span class="footer-credit">&copy; 2026 Nandhu Babu &mdash; Engineered with WebGL &amp; 3D Precision.</span>
+            <div class="footer-links-group">
+                <a href="https://github.com/nandhubabu" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://www.linkedin.com/in/nandhu-babu" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="#hero" class="btn-top-indicator">Top &uarr;</a>
             </div>
         </div>
     </footer>
